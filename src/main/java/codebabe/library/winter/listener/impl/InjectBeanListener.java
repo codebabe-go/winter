@@ -77,12 +77,6 @@ public class InjectBeanListener extends AbstractListener {
         }
     }
 
-    private  <T>T reflectField(Field field) throws IllegalAccessException, InstantiationException {
-        String name = field.getName();
-        Class clz = factory.getBean(name);
-        return (T) clz.newInstance();
-    }
-
     /**
      *
      * @param src
