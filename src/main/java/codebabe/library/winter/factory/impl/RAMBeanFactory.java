@@ -22,9 +22,9 @@ public class RAMBeanFactory extends AbstractBeanFactory {
         super(event, env);
     }
 
-    private static Map<String, Class> factory = new ConcurrentHashMap<String, Class>();
+    private static Map<String, Object> factory = new ConcurrentHashMap<String, Object>();
 
-    public Class getBean(String name) {
+    public Object getBean(String name) {
         return factory.get(name);
     }
 
@@ -36,18 +36,18 @@ public class RAMBeanFactory extends AbstractBeanFactory {
         factory.clear();
     }
 
-    protected void storeBean(Set<Class> classes) {
+    protected void storeBean(Set<Class> classes) throws IllegalAccessException, InstantiationException {
         if (classes.size() > 0) {
             for (Class clz : classes) {
                 Bean bean = (Bean) clz.getAnnotation(BeanFactory.ANNOTATION);
                 String setName = bean.name();
-                Class old = null;
+                Object old = null;
                 if (StringUtils.isNotEmpty(setName)) {
-                    old =  factory.put(setName, clz);
+                    old =  factory.put(setName, clz.newInstance());
                 } else {
                     String beanName = StringUtils.subString(clz.getName(), ".");
                     String putName = Regular.standardizingName(beanName);
-                    old = factory.put(putName, clz);
+                    old = factory.put(putName, clz.newInstance());
                 }
 
                 if (null != old) {

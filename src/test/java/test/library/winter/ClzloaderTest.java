@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import test.library.winter.bean.BeanTest;
 import test.library.winter.bean.O1;
+import test.library.winter.main.model.CallBackMan;
+import test.library.winter.main.model.Man;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -59,5 +61,25 @@ public class ClzloaderTest extends TestCase {
             }
         }
         Assert.assertTrue(o1.getName().equals("hello reflect"));
+    }
+
+    @Test
+    public void testMethodParametersType() throws InvocationTargetException, IllegalAccessException, InstantiationException {
+        CallBackMan callBackMan = new CallBackMan();
+        // inject
+        Class clz = callBackMan.getClass();
+        for (Method method : clz.getDeclaredMethods()) {
+            // callback setter
+            if (method.getName().startsWith("set")) {
+                Class[] type = method.getParameterTypes();
+                Assert.assertTrue(type.length == 1);
+                for (Class t : type) {
+                    System.out.println(t.getTypeName());
+                    // package name append class name
+//                    Assert.assertTrue(t.getTypeName().equals("man"));
+                    Assert.assertTrue(t.newInstance() instanceof Man);
+                }
+            }
+        }
     }
 }

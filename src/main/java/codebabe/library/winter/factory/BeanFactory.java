@@ -16,7 +16,7 @@ public interface BeanFactory {
      * @param name
      * @return
      */
-    Class getBean(String name);
+    Object getBean(String name);
 
     boolean isDestroyed() throws EnvironmentException;
 

@@ -46,6 +46,10 @@ public abstract class AbstractBeanFactory implements BeanFactory {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
         beanListener = new InjectBeanListener(this);
         beanListener.listening(event);
@@ -58,7 +62,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * the data to store is binary steam
      * @param classes
      */
-    protected abstract void storeBean(Set<Class> classes) throws DuplicateBeanNameException;
+    protected abstract void storeBean(Set<Class> classes) throws DuplicateBeanNameException, IllegalAccessException, InstantiationException;
 
 
 }

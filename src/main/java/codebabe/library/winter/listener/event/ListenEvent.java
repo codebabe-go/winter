@@ -15,11 +15,21 @@ public class ListenEvent {
 
     private String packageName;
 
+    private Object src;
+
     public String getPackageName() {
         return packageName;
     }
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public Object getSrc() {
+        return src;
+    }
+
+    public void setSrc(Object src) {
+        this.src = src;
     }
 }
