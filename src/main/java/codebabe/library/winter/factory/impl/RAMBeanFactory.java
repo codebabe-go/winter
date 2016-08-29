@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RAMBeanFactory extends AbstractBeanFactory {
 
-    public <T> RAMBeanFactory(ListenEvent event, T env) {
+    public <T> RAMBeanFactory(ListenEvent event, T env) throws ClassNotFoundException {
         super(event, env);
     }
 

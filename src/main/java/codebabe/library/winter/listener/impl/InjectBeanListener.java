@@ -39,7 +39,7 @@ public class InjectBeanListener extends AbstractListener {
      * scan all classes under package, and inject it to where calls this
      * @param event event.packageName
      */
-    public <T>void doEvent(ListenEvent event) throws ClassNotFoundException {
+    public void doEvent(ListenEvent event) throws ClassNotFoundException {
         String pkgName = event.getPackageName();
         URL url = ClassUtils.getURLByPkgName(pkgName);
         if (ClassUtils.PROTOCOL.equals(url.getProtocol())) {

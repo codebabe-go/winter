@@ -8,8 +8,8 @@ import codebabe.library.winter.listener.event.ListenEvent;
  */
 public interface BeanListener {
 
-    void listening(ListenEvent event);
+    void listening(ListenEvent event) throws ClassNotFoundException;
 
-    <T>void doEvent(ListenEvent event) throws ClassNotFoundException;
+    void doEvent(ListenEvent event) throws ClassNotFoundException;
 
 }

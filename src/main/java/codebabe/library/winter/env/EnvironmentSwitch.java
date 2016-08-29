@@ -6,6 +6,6 @@ package codebabe.library.winter.env;
  */
 public interface EnvironmentSwitch {
 
-    <T> void init(T... params);
+    <T> void init(T... params) throws ClassNotFoundException;
 
 }

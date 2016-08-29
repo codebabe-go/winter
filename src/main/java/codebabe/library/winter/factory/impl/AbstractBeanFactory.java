@@ -19,7 +19,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
 
     private AbstractBeanFactory() {}
 
-    public <T> AbstractBeanFactory(ListenEvent event, T env) {
+    public <T> AbstractBeanFactory(ListenEvent event, T env) throws ClassNotFoundException {
         this.event = event;
         init(env);
     }
@@ -28,7 +28,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
 
     private ListenEvent event;
 
-    private  <T>boolean init(T env) {
+    private  <T>boolean init(T env) throws ClassNotFoundException {
         boolean ret = false;
         try {
             Set<Class> classes = new HashSet<Class>();
@@ -51,6 +51,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+        // default listener
         beanListener = new InjectBeanListener(this);
         beanListener.listening(event);
         return ret;
