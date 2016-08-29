@@ -20,6 +20,9 @@ public class ListenEvent {
 
     private String packageName;
 
+    /**
+     * src not env params
+     */
     private Object src;
 
     public String getPackageName() {
