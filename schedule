@@ -1,0 +1,6 @@
+completed basic ioc
+
+next version:
+	1.support multi inject, one class can inject kinds of class
+	2.implements dynamic proxy, aop by jdk Proxer
+	3.completed log system
