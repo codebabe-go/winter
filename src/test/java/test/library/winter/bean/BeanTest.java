@@ -1,6 +1,6 @@
 package test.library.winter.bean;
 
-import codebabe.library.winter.EnvironmentSwitch;
+import codebabe.library.winter.DefaultEnvironmentSwitch;
 import codebabe.library.winter.anno.Inject;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.junit.Test;
 public class BeanTest extends TestCase {
 
     {
-        EnvironmentSwitch.start("test.library.winter.bean");
+        DefaultEnvironmentSwitch.start("test.library.winter.bean", this);
     }
 
     @Inject

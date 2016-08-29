@@ -52,26 +52,31 @@ public class InjectBeanListener extends AbstractListener {
                 Field[] fields = bean.getDeclaredFields();
                 // one class may contain more than one specific annotation
                 for (Field field : fields) {
-                    Inject iBean = field.getAnnotation(Inject.class);
-                    // inject
-                    if (null != iBean) {
-                        String beanName = iBean.name();
-                        Object instanceBean = null;
-                        if (StringUtils.isNotEmpty(beanName)) {
-                            instanceBean = factory.getBean(beanName);
-                        } else {
-                            beanName = field.getName();
-                            instanceBean = factory.getBean(beanName);
+                    try {
+                        Inject iBean = field.getAnnotation(Inject.class);
+
+                        // inject
+                        if (null != iBean) {
+                            String beanName = iBean.name();
+                            Object instanceBean = null;
+                            if (StringUtils.isNotEmpty(beanName)) {
+                                instanceBean = factory.getBean(beanName);
+                            } else {
+                                beanName = field.getName();
+                                instanceBean = factory.getBean(beanName);
+                            }
+                            try {
+                                inject(bean, instanceBean, event.getSrc(), beanName);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            } catch (InstantiationException e) {
+                                e.printStackTrace();
+                            } catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        try {
-                            inject(bean, instanceBean, event.getSrc(), beanName);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InstantiationException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

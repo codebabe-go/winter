@@ -13,6 +13,11 @@ public class ListenEvent {
         this.packageName = packageName;
     }
 
+    public ListenEvent(String packageName, Object src) {
+        this.packageName = packageName;
+        this.src = src;
+    }
+
     private String packageName;
 
     private Object src;

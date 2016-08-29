@@ -58,12 +58,18 @@ public class ClassUtils {
             // get all(private, protected, public) fields
             Field[] fields = clz.getDeclaredFields();
             for (Field field : fields) {
-                Annotation bean = field.getAnnotation(annotation);
-                // this class contains this annotation
-                if (null != bean) {
-                    retBeans.add(clz);
-                    // break current loop of fields
-                    break;
+                if (null != field) {
+                    try {
+                        Annotation bean = field.getAnnotation(annotation);
+                        // this class contains this annotation
+                        if (null != bean) {
+                            retBeans.add(clz);
+                            // break current loop of fields
+                            break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
