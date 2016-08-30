@@ -12,11 +12,9 @@ public class Factory {
 
     private static BeanFactory factory;
 
-    private static final String PKG_NAME = Factory.class.getPackage().getName();
-
     private static Object lock = new Object();
 
-    public static <T>BeanFactory createDefaultFactory(ListenEvent event, T env) {
+    public static <T>BeanFactory createDefaultFactory(ListenEvent event, T env) throws ClassNotFoundException {
         if (factory == null) {
             synchronized (lock) {
                 factory = new RAMBeanFactory(event, env);
@@ -25,16 +23,8 @@ public class Factory {
         return factory;
     }
 
-    public static BeanFactory createDefaultFactory() {
-        return createDefaultFactory(new InjectEvent(PKG_NAME), Factory.class);
-    }
-
-    public static BeanFactory createDefaultFactory(ListenEvent event) {
+    public static BeanFactory createDefaultFactory(ListenEvent event) throws ClassNotFoundException {
         return createDefaultFactory(event, Factory.class);
-    }
-
-    public static <T>BeanFactory createDefaultFactory(T env) {
-        return createDefaultFactory(new InjectEvent(PKG_NAME), env);
     }
 
 }

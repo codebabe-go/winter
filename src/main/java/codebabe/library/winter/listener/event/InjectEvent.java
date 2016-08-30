@@ -13,4 +13,8 @@ public class InjectEvent extends ListenEvent {
     public InjectEvent(String packageName) {
         super(packageName);
     }
+
+    public InjectEvent(String packageName, Object src) {
+        super(packageName, src);
+    }
 }

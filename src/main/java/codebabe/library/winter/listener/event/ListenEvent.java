@@ -13,7 +13,17 @@ public class ListenEvent {
         this.packageName = packageName;
     }
 
+    public ListenEvent(String packageName, Object src) {
+        this.packageName = packageName;
+        this.src = src;
+    }
+
     private String packageName;
+
+    /**
+     * src not env params
+     */
+    private Object src;
 
     public String getPackageName() {
         return packageName;
@@ -21,5 +31,13 @@ public class ListenEvent {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public Object getSrc() {
+        return src;
+    }
+
+    public void setSrc(Object src) {
+        this.src = src;
     }
 }

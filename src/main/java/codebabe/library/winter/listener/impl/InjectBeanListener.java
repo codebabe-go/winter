@@ -13,6 +13,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class InjectBeanListener extends AbstractListener {
      * scan all classes under package, and inject it to where calls this
      * @param event event.packageName
      */
-    public <T>void doEvent(ListenEvent event) throws ClassNotFoundException {
+    public void doEvent(ListenEvent event) throws ClassNotFoundException {
         String pkgName = event.getPackageName();
         URL url = ClassUtils.getURLByPkgName(pkgName);
         if (ClassUtils.PROTOCOL.equals(url.getProtocol())) {
@@ -51,48 +52,51 @@ public class InjectBeanListener extends AbstractListener {
                 Field[] fields = bean.getDeclaredFields();
                 // one class may contain more than one specific annotation
                 for (Field field : fields) {
-                    Inject iBean = field.getAnnotation(Inject.class);
-                    // inject
-                    if (null != iBean) {
-                        String beanName = iBean.name();
-                        Class instanceClz = null;
-                        if (StringUtils.isNotEmpty(beanName)) {
-                            instanceClz = factory.getBean(beanName);
-                        } else {
-                            beanName = field.getName();
-                            instanceClz = factory.getBean(beanName);
+                    try {
+                        Inject iBean = field.getAnnotation(Inject.class);
+
+                        // inject
+                        if (null != iBean) {
+                            String beanName = iBean.name();
+                            Object instanceBean = null;
+                            if (StringUtils.isNotEmpty(beanName)) {
+                                instanceBean = factory.getBean(beanName);
+                            } else {
+                                beanName = field.getName();
+                                instanceBean = factory.getBean(beanName);
+                            }
+                            try {
+                                inject(bean, instanceBean, event.getSrc(), beanName);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            } catch (InstantiationException e) {
+                                e.printStackTrace();
+                            } catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        try {
-                            inject(bean, instanceClz, beanName);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InstantiationException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
         }
     }
 
-    private  <T>T reflectField(Field field) throws IllegalAccessException, InstantiationException {
-        String name = field.getName();
-        Class clz = factory.getBean(name);
-        return (T) clz.newInstance();
-    }
-
     /**
      *
+     * @param clz inject bean into src
+     * @param instanceBean
      * @param src
-     * @param instanceClz
      * @param matchMethodName
      */
-    private void inject(Class src, Class instanceClz, String matchMethodName) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        for (Method method : src.getDeclaredMethods()) {
+    private void inject(Class clz, Object instanceBean, Object src, String matchMethodName) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        for (Method method : clz.getDeclaredMethods()) {
             if (method.getName().equals(Regular.regularInjectName(matchMethodName))) {
-                method.invoke(src.newInstance(), instanceClz.newInstance());
+//                Class[] types = method.getParameterTypes();
+//                for (Class t : types) {
+//                }
+                method.invoke(src, instanceBean);
             }
         }
     }

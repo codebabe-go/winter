@@ -1,18 +1,19 @@
 package test.library.winter.bean;
 
-import codebabe.library.winter.EnvironmentSwitch;
+import codebabe.library.winter.DefaultEnvironmentSwitch;
 import codebabe.library.winter.anno.Inject;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * author: code.babe
  * date: 2016-08-26 21:12
  */
-public class BeanTest extends TestCase {
+public class BeanTest {
 
-    {
-        EnvironmentSwitch.start("test.library.winter.bean");
+    @Before
+    public void before() throws ClassNotFoundException {
+        DefaultEnvironmentSwitch.start("test.library.winter.bean", this);
     }
 
     @Inject
