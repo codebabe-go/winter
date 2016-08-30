@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
  * Created by LL on 16/8/29.
  */
 
-public class mockTest {
+public class MockTest {
 
     @Test
     public void testMockMethod(){
