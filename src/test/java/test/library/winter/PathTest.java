@@ -33,4 +33,8 @@ public class PathTest extends TestCase {
         Assert.assertNotNull(pkgName);
     }
 
+    public void test() {
+
+    }
+
 }
